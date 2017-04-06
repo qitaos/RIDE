@@ -37,6 +37,7 @@ import tempfile
 import threading
 import signal
 import sys
+import re
 from Queue import Empty, Queue
 
 from robotide import utils
@@ -67,6 +68,17 @@ class TestRunner(object):
 
     def _create_temporary_directory(self):
         self._output_dir = tempfile.mkdtemp(".d", "RIDE")
+        temp_dir = None
+        zh_CN = re.compile(u'[\u4e00-\u9fa5]+')
+        match = zh_CN.search(self._output_dir.decode('gbk'))
+        if match and (os.sep == '\\'):
+            drive = os.path.splitdrive(os.environ['APPDATA'])[0]
+            temp_dir = os.path.join(drive, os.sep, 'RobotFramework', 'temp')
+            if not os.path.isdir(temp_dir):
+                os.makedirs(temp_dir)
+            if os.path.exists(self._output_dir):
+                shutil.rmtree(self._output_dir)
+            self._output_dir = tempfile.mkdtemp(".d", "RIDE", temp_dir)
         atexit.register(self._remove_temporary_directory)
         # this plugin creates a temporary directory which _should_
         # get reaped at exit. Sometimes things happen which might
