@@ -1,3 +1,15 @@
+补丁包
+====
+
+我在分支fix-chinese-name上做了2处修改，分别打了2个tag。
+
+  * 1.5.2.2: 修复了windows系统上中文用户名导致RIDE运行失败的问题，可以去release里下载。
+  * 1.5.2.3: 修复了之前UnicodeDecodeError的报错，此tag包含前一个tag的修改内容
+
+如果要看代码改动，请自己查看最近提交的代码，如想要安装：请自己下载对应的安装包（假设文件名是RIDE.zip），然后执行：
+
+    pip install RIDE.zip
+
 RIDE
 ====
 
